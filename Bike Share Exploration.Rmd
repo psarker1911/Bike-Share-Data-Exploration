@@ -37,6 +37,7 @@ bike_rides <- janitor::remove_empty(bike_rides,which = c("cols"))
 bike_rides <- janitor::remove_empty(bike_rides, which = c("rows"))
 
 ## remove na values
+bike_rides <- replace(bike_rides, bike_rides=='', NA)
 sum(is.na(bike_rides))
 bike_rides <- na.omit(bike_rides)
 # above ok - do not delete
