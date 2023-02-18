@@ -64,87 +64,63 @@ bike_rides <- janitor::remove_empty(bike_rides,which = c("cols"))
 bike_rides <- janitor::remove_empty(bike_rides, which = c("rows"))
 
 ## remove na values
+bike_rides <- replace(bike_rides, bike_rides=='', NA)
 sum(is.na(bike_rides))
 ```
 
-    ## [1] 191163
+    ## [1] 541397
 
 ``` r
 bike_rides <- na.omit(bike_rides)
 # above ok - do not delete
 ```
 
-``` r
+### comment out
+
 ## Filtering starting stations with blank names
-bike_rides_start_blank <- bike_rides %>% filter (start_station_name =="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-```
 
-    ## `summarise()` has grouped output by 'ride_id', 'rideable_type', 'started_at',
-    ## 'ended_at', 'start_station_name', 'start_station_id', 'end_station_name',
-    ## 'end_station_id', 'start_lat', 'start_lng', 'end_lng'. You can override using
-    ## the `.groups` argument.
+bike_rides_start_blank \<- bike_rides %\>% filter (start_station_name
+==““) %\>% group_by(ride_id, rideable_type, started_at, ended_at,
+start_station_name, start_station_id, end_station_name, end_station_id,
+start_lat, start_lng, end_lng, member_casual) %\>% summarise(n=n())
 
-``` r
 ## Filtering starting stations without blank names
-bike_rides_start_non_blank <- bike_rides %>% filter (start_station_name !="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-```
 
-    ## `summarise()` has grouped output by 'ride_id', 'rideable_type', 'started_at',
-    ## 'ended_at', 'start_station_name', 'start_station_id', 'end_station_name',
-    ## 'end_station_id', 'start_lat', 'start_lng', 'end_lng'. You can override using
-    ## the `.groups` argument.
+bike_rides_start_non_blank \<- bike_rides %\>% filter
+(start_station_name !=““) %\>% group_by(ride_id, rideable_type,
+started_at, ended_at, start_station_name, start_station_id,
+end_station_name, end_station_id, start_lat, start_lng, end_lng,
+member_casual) %\>% summarise(n=n())
 
-``` r
-## #Filtering ending stations with blank names
-bike_rides_end_blank <- bike_rides %>% filter (end_station_name =="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-```
+## \#Filtering ending stations with blank names
 
-    ## `summarise()` has grouped output by 'ride_id', 'rideable_type', 'started_at',
-    ## 'ended_at', 'start_station_name', 'start_station_id', 'end_station_name',
-    ## 'end_station_id', 'start_lat', 'start_lng', 'end_lng'. You can override using
-    ## the `.groups` argument.
+bike_rides_end_blank \<- bike_rides %\>% filter (end_station_name ==““)
+%\>% group_by(ride_id, rideable_type, started_at, ended_at,
+start_station_name, start_station_id, end_station_name, end_station_id,
+start_lat, start_lng, end_lng, member_casual) %\>% summarise(n=n())
 
-``` r
-## #Filtering ending stations without blank names
-bike_rides_end_non_blank <- bike_rides %>% filter (end_station_name !="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-```
+## \#Filtering ending stations without blank names
 
-    ## `summarise()` has grouped output by 'ride_id', 'rideable_type', 'started_at',
-    ## 'ended_at', 'start_station_name', 'start_station_id', 'end_station_name',
-    ## 'end_station_id', 'start_lat', 'start_lng', 'end_lng'. You can override using
-    ## the `.groups` argument.
+bike_rides_end_non_blank \<- bike_rides %\>% filter (end_station_name
+!=““) %\>% group_by(ride_id, rideable_type, started_at, ended_at,
+start_station_name, start_station_id, end_station_name, end_station_id,
+start_lat, start_lng, end_lng, member_casual) %\>% summarise(n=n())
 
-``` r
-###below chunk necessary?
-#merging both start station names
-start_data <- data.frame(bike_rides_start_non_blank)
-start_data <- rbind(start_data,bike_rides_start_blank)
+\###below chunk necessary? \#merging both start station names start_data
+\<- data.frame(bike_rides_start_non_blank) start_data \<-
+rbind(start_data,bike_rides_start_blank)
 
-#merging both end station names
-end_data <- data.frame(bike_rides_end_non_blank)
-end_data <- rbind(end_data,bike_rides_end_blank)
-```
+\#merging both end station names end_data \<-
+data.frame(bike_rides_end_non_blank) end_data \<-
+rbind(end_data,bike_rides_end_blank)
 
-``` r
-#Merging start and end dfs
-bike_rides2 <- merge(bike_rides_start_non_blank, bike_rides_end_non_blank, by = "ride_id")
-```
+### comment out
+
+### comment out
+
+\#Merging start and end dfs bike_rides2 \<-
+merge(bike_rides_start_non_blank, bike_rides_end_non_blank, by =
+“ride_id”) \### comment out
 
 ``` r
 ##
@@ -219,7 +195,7 @@ summary(bikesrides2$Count)
 ```
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-    ##     2.0   414.5  1558.0  2647.6  3731.5 15422.0
+    ##       2     377    1430    2600    3676   15422
 
 - Count of rides by Hour
 
@@ -230,11 +206,11 @@ xtabs(bikesrides2$Count~bikesrides2$start_hour)
 
     ## bikesrides2$start_hour
     ##      0      1      2      3      4      5      6      7      8      9     10 
-    ##  32569  19577  10656   5982   6542  21910  67454 114601 130470 123383 145575 
+    ##  31812  19113  10361   5790   6344  21432  66371 112645 128192 121084 142786 
     ##     11     12     13     14     15     16     17     18     19     20     21 
-    ## 189782 226048 233639 239821 259996 295910 344191 303546 219254 142113  92542 
+    ## 186117 221751 229084 235056 255141 290844 338643 299067 215958 139819  90917 
     ##     22     23 
-    ##  73776  55177
+    ##  72255  54109
 
 ``` r
 bikesrides2$Monthly <- lubridate::month(bikesrides2$Weekly)
@@ -246,7 +222,7 @@ bikesrides2 %>% ggplot() + geom_col(aes(x=Weekly,y=Count,fill=Count)) +
        y = "Average rides per day")
 ```
 
-![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ``` r
 options(scipen = 999)
@@ -256,7 +232,7 @@ bikesrides2 %>% ggplot() + geom_col(aes(x=start_hour,y=Count, fill=Count)) +
        y = "Rides per Hour")
 ```
 
-![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 ### Create summary bikestype data frame
@@ -283,7 +259,7 @@ ggplot(bikestype) +
   labs(title = "Count of ride by Bike Type",subtitle = "(for 12 months ending 31-03-2021)")
 ```
 
-![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 - Total Ride Minutes by week
 
@@ -294,7 +270,7 @@ ggplot(bikestype) +
   labs(title = "Total Ride Minutes by Rider Type")
 ```
 
-![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 bike_rides %>%
@@ -308,7 +284,7 @@ bike_rides %>%
 
     ## Selecting by n
 
-![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](Bike-Share-Exploration_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
 # Top 20 start stations for casual riders
@@ -323,26 +299,26 @@ bike_rides %>%
     ## # A tibble: 20 × 3
     ##    start_station_name           member_casual number_of_rides
     ##    <chr>                        <chr>                   <int>
-    ##  1 Streeter Dr & Grand Ave      casual                  26074
-    ##  2 Lake Shore Dr & Monroe St    casual                  20548
-    ##  3 Millennium Park              casual                  19325
-    ##  4 Theater on the Lake          casual                  14964
-    ##  5 Indiana Ave & Roosevelt Rd   casual                  13573
-    ##  6 Michigan Ave & Oak St        casual                  13569
-    ##  7 Lake Shore Dr & North Blvd   casual                  13268
-    ##  8 Clark St & Elm St            casual                  11908
-    ##  9 Michigan Ave & Lake St       casual                  11650
-    ## 10 Michigan Ave & Washington St casual                  10626
-    ## 11 Clark St & Lincoln Ave       casual                  10122
-    ## 12 Buckingham Fountain          casual                   9988
-    ## 13 Wells St & Concord Ln        casual                   9953
-    ## 14 Clark St & Armitage Ave      casual                   9806
-    ## 15 Shedd Aquarium               casual                   9757
-    ## 16 Wabash Ave & Grand Ave       casual                   9693
-    ## 17 Michigan Ave & 8th St        casual                   9680
-    ## 18 Columbus Dr & Randolph St    casual                   9377
-    ## 19 Wells St & Elm St            casual                   9161
-    ## 20 Fairbanks Ct & Grand Ave     casual                   8984
+    ##  1 Streeter Dr & Grand Ave      casual                  26049
+    ##  2 Lake Shore Dr & Monroe St    casual                  20524
+    ##  3 Millennium Park              casual                  19283
+    ##  4 Theater on the Lake          casual                  14939
+    ##  5 Michigan Ave & Oak St        casual                  13539
+    ##  6 Indiana Ave & Roosevelt Rd   casual                  13522
+    ##  7 Lake Shore Dr & North Blvd   casual                  13248
+    ##  8 Clark St & Elm St            casual                  11862
+    ##  9 Michigan Ave & Lake St       casual                  11622
+    ## 10 Michigan Ave & Washington St casual                  10595
+    ## 11 Clark St & Lincoln Ave       casual                  10088
+    ## 12 Buckingham Fountain          casual                   9980
+    ## 13 Wells St & Concord Ln        casual                   9919
+    ## 14 Clark St & Armitage Ave      casual                   9769
+    ## 15 Shedd Aquarium               casual                   9748
+    ## 16 Wabash Ave & Grand Ave       casual                   9668
+    ## 17 Michigan Ave & 8th St        casual                   9649
+    ## 18 Columbus Dr & Randolph St    casual                   9350
+    ## 19 Wells St & Elm St            casual                   9110
+    ## 20 Fairbanks Ct & Grand Ave     casual                   8949
 
 KEY FINDINGS
 

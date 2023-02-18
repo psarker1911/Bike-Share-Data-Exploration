@@ -43,7 +43,7 @@ bike_rides <- na.omit(bike_rides)
 # above ok - do not delete
 ```
 
-```{r}
+### comment out
 ## Filtering starting stations with blank names
 bike_rides_start_blank <- bike_rides %>% filter (start_station_name =="") %>%
   group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
@@ -80,12 +80,13 @@ start_data <- rbind(start_data,bike_rides_start_blank)
 #merging both end station names
 end_data <- data.frame(bike_rides_end_non_blank)
 end_data <- rbind(end_data,bike_rides_end_blank)
-```
 
-```{r}
+### comment out
+
+### comment out
 #Merging start and end dfs
 bike_rides2 <- merge(bike_rides_start_non_blank, bike_rides_end_non_blank, by = "ride_id")
-```
+### comment out
 
 ```{r}
 ##
