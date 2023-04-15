@@ -43,51 +43,6 @@ bike_rides <- na.omit(bike_rides)
 # above ok - do not delete
 ```
 
-### comment out
-## Filtering starting stations with blank names
-bike_rides_start_blank <- bike_rides %>% filter (start_station_name =="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-
-## Filtering starting stations without blank names
-bike_rides_start_non_blank <- bike_rides %>% filter (start_station_name !="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-
-## #Filtering ending stations with blank names
-bike_rides_end_blank <- bike_rides %>% filter (end_station_name =="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-
-## #Filtering ending stations without blank names
-bike_rides_end_non_blank <- bike_rides %>% filter (end_station_name !="") %>%
-  group_by(ride_id, rideable_type, started_at, ended_at, start_station_name,
-           start_station_id, end_station_name, end_station_id, start_lat,
-           start_lng, end_lng, member_casual) %>%
-  summarise(n=n())
-
-###below chunk necessary?
-#merging both start station names
-start_data <- data.frame(bike_rides_start_non_blank)
-start_data <- rbind(start_data,bike_rides_start_blank)
-
-#merging both end station names
-end_data <- data.frame(bike_rides_end_non_blank)
-end_data <- rbind(end_data,bike_rides_end_blank)
-
-### comment out
-
-### comment out
-#Merging start and end dfs
-bike_rides2 <- merge(bike_rides_start_non_blank, bike_rides_end_non_blank, by = "ride_id")
-### comment out
-
 ```{r}
 ##
 ##Convert Date/Time stamp to Date/Time ...
